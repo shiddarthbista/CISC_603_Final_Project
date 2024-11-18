@@ -1,3 +1,6 @@
+package bista.shiddarth
+//Authored by: Shiddarth Bista
+
 sealed class DfaState {
     abstract fun next(input:Char) : DfaState
 }
@@ -42,35 +45,37 @@ class DFA {
     private val startState: DfaState = S0
     private val acceptingState: DfaState = S3
 
-    fun isAccepted(input: String): Boolean {
+    private fun isAccepted(input: String): Boolean {
         var currentState = startState
         for (char in input) {
             currentState = currentState.next(char)
         }
         return currentState == acceptingState // Check if we are in the accepting state
+    }
 
+    fun dfaImplementation(){
+        while(true) {
+            println("Enter a word to check if it is accepted by the DFA:")
+            val input = readlnOrNull() ?: ""
+
+            if (input.equals("exit", ignoreCase = true)) {
+                println("Exiting the program.")
+                break
+            }
+
+            if (input.any { it !in "ab" }) {
+                println("Error: Input string contains invalid characters. Only 'a' and 'b' are allowed.")
+            } else {
+                val isAccepted = isAccepted(input)
+                println("$input is ${if (isAccepted) "accepted" else "not accepted"} by the DFA.")
+                println()
+            }
+        }
     }
 }
 
 fun main() {
     val dfa = DFA()
-
-    while(true) {
-        println("Enter a word to check if it is accepted by the DFA:")
-        val input = readlnOrNull() ?: ""
-
-        if (input.equals("exit", ignoreCase = true)) {
-            println("Exiting the program.")
-            break
-        }
-
-        if (input.any { it !in "ab" }) {
-            println("Error: Input string contains invalid characters. Only 'a' and 'b' are allowed.")
-        } else {
-            val isAccepted = dfa.isAccepted(input)
-            println("$input is ${if (isAccepted) "accepted" else "not accepted"} by the DFA.")
-            println()
-        }
-    }
+    dfa.dfaImplementation()
 }
 

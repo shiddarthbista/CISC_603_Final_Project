@@ -1,4 +1,6 @@
-//Authored by: Shiddarth
+package bista.shiddarth
+
+//Authored by: Shiddarth Bista
 sealed class PdaState
 
 data object Q0 : PdaState()
@@ -62,26 +64,31 @@ class PDA {
         // Ensure the PDA ends in a valid state
         return (state == Q4 || state == Q3) && stack.first() == 'Z'
     }
+
+    fun pdaImplementation() {
+        while (true) {
+            println("Enter a word to check if it is accepted by the PDA:")
+            val input = readlnOrNull() ?: ""
+
+            if (input.equals("exit", ignoreCase = true)) {
+                println("Exiting the program.")
+                break
+            }
+
+            if (input.any { it !in "01" }) {
+                println("Error: Input string contains invalid characters. Only '0' and '1' are allowed.")
+            } else {
+                val isAccepted = isAccepted(input)
+                println("$input is ${if (isAccepted) "accepted" else "not accepted"} by the PDA.")
+                println()
+            }
+        }
+    }
 }
 
 fun main() {
     val pda = PDA()
-
-    while (true) {
-        println("Enter a word to check if it is accepted by the PDA:")
-        val input = readlnOrNull() ?: ""
-
-        if (input.equals("exit", ignoreCase = true)) {
-            println("Exiting the program.")
-            break
-        }
-
-        if (input.any { it !in "01" }) {
-            println("Error: Input string contains invalid characters. Only '0' and '1' are allowed.")
-        } else {
-            val isAccepted = pda.isAccepted(input)
-            println("$input is ${if (isAccepted) "accepted" else "not accepted"} by the PDA.")
-            println()
-        }
-    }
+    pda.pdaImplementation()
 }
+
+
